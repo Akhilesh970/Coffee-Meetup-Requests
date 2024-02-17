@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style1.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coffee Meetup Requests</title>
+</head>
+<body>
+
+<div class="container">
+  <h2 class="header_text">Can't Waiit!! &#x23F3;</h2>
+  <h3 class="header_text1">To see you cuite &#x1F60D;</h3>
+  <div class="gif_container">
+    <img
+      src="https://i.postimg.cc/h4HGctM5/sticker-8.gif"
+      alt="Cute animated illustration"
+    />
+  </div>
+  <div class="datetime-container">
+    <input type="datetime-local" id="datetime" class="datetime-input" required>
+  </div>
+  <button id="fix-time-btn" class="btn">Fix Time</button>
+</div>
+
+<!-- Popup form -->
+<div id="popup-form" class="popup-form" style="display: none;">
+  <span class="close-btn" id="close-btn">&times;</span>
+  <div class="container">
+    <h3> Let's make it perfect </h3>
+    <form id="user-info-form">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required><br><br>
+      <div id="email-warning" style="display: none; color: red; font-size: 12px;">Enter Valid Mail ID</div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required><br><br>
+      <div id="phone-warning" style="display: none; color: red; font-size: 12px;">Enter Valid Phone Number</div>
+      <label for="phone">Phone:</label>
+      <input type="tel" id="phone" name="phone" required><br><br>
+      <button type="submit" id="submit-info-btn" class="btn">Submit</button>
+    </form>
+  </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const fixTimeButton = document.getElementById('fix-time-btn');
+      const popupForm = document.getElementById('popup-form');
+      const closeBtn = document.getElementById('close-btn');
+      const submitInfoButton = document.getElementById('submit-info-btn');
+      const nameInput = document.getElementById('name');
+      const emailInput = document.getElementById('email');
+      const phoneInput = document.getElementById('phone');
+      const emailWarning = document.getElementById('email-warning');
+      const phoneWarning = document.getElementById('phone-warning');
+      const datetimeInput = document.getElementById('datetime');
+    
+      fixTimeButton.addEventListener('click', function () {
+        if (datetimeInput.value === '') {
+          alert('Select the Date and Time');
+          return;
+        }
+        const selectedDateTime = new Date(datetimeInput.value);
+        const now = new Date();
+        if (selectedDateTime <= now) {
+          alert('Select Valid Date and Time');
+          return;
+        }
+        popupForm.style.display = 'block';
+      });
+    
+      closeBtn.addEventListener('click', function () {
+        popupForm.style.display = 'none';
+      });
+    
+      // Validate name input to allow only characters
+      nameInput.addEventListener('input', function () {
+        this.value = this.value.replace(/[^A-Za-z]/g, '');
+      });
+    
+      // Validate email input for a valid email format
+      emailInput.addEventListener('input', function () {
+        const email = this.value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email) && email !== '') {
+          emailWarning.style.display = 'block';
+        } else {
+          emailWarning.style.display = 'none';
+        }
+      });
+    
+      // Validate phone input to allow only numeric characters
+      // and to start with 9, 8, 7, or 6
+      phoneInput.addEventListener('input', function () {
+        const phone = this.value.trim();
+        const phoneRegex = /^[9876]\d{9}$/;
+        if (!phoneRegex.test(phone) && phone !== '') {
+          phoneWarning.style.display = 'block';
+        } else {
+          phoneWarning.style.display = 'none';
+        }
+      });
+    
+      // Automatically close the popup form when the cursor moves away from the datetime input
+      datetimeInput.addEventListener('focusout', function () {
+        popupForm.style.display = 'none';
+      });
+    
+      submitInfoButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        const selectedDateTime = new Date(datetimeInput.value);
+        const name = nameInput.value;
+        const email = emailInput.value;
+        const phone = phoneInput.value;
+        
+        // Close the popup form
+        popupForm.style.display = 'none';
+        // Redirect to the thanks.html page
+        window.location.href = 'thanks.html';
+      });
+    });
+    </script>     
+</body>
+</html>
